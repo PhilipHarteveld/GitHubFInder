@@ -1,28 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import SpinnerLoad from "../layout/Spinner";
 import UserItem from "./UserItem";
+import GithubContext from "../../context/github/GithubContext";
 
 function UserResults() {
-  const [users, setUsers] = useState([]);
-  const [Loading, setLoading] = useState(true);
+  const { users, Loading, fetchUsers } = useContext(GithubContext);
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const fetchUsers = async () => {
-    const response = await fetch(`https://api.github.com/users`, {
-      headers: {
-        Authorization: ``,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-
-    const data = await response.json();
-    console.log(data);
-    setUsers(data);
-    setLoading(false);
-  };
   if (!Loading) {
     return (
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
